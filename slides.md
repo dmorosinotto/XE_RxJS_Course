@@ -200,16 +200,17 @@ ATTENZIONE: ai **MemoryLeak** che si possono verificare soprattutto se sottoscri
 COME RENDERE UN **@Input() -> obs$**
 
 ```
-private #prop = new BehaviorSubject<T|undefined>(undefined);
-protected prop$ = this.#prop.asObservable();
-@Input() set prop(value: T) {
-    //if (value!==this.prop)
+private #prop = new BehaviorSubject<T|undefined>(undefined); //TRICK VALORE PARTENZA
+protected prop$ = this.#prop.asObservable().pipe(filter(p=>p===undefined));
+@Input() set prop(value: T) { //OGNI VOLTA CHE RICEVO VALORE LO EMETTO TRAMITE prop$
+    //if (value!==this.prop)  //ALTRO MODO PER EVITARE LOOP INFINITI [(prop)]="val"
     this.#prop.next(value);
 }
-get prop(): T|undefined {
+get prop(): T|undefined { //ACCESSO ALL'ULTIMO VALORE PUNTUALE
     return this.#prop.getValue();
 }
-@Output() propChange=this.prop$.pipe(filter(p=>p===undefined),distinctUntilChange());
+//TRICK PER SUPPORTO TWO-WAY DATABINDING [(prop)]="val" EVITANDO LOOP INFINITI
+@Output() propChange=this.prop$.pipe(distinctUntilChanged());
 ```
 
 -   NOTA: Gli **@Output()** tipicamente sono `= new EventEmitter<T>()` ma in verità EventEmitter [sono dei Subject](https://github.com/angular/angular/blob/15.1.1/packages/core/src/event_emitter.ts#L64) e per finire quando nel template del padre noi scriviamo `(output)="handler($event)"` il compilatore di Angular sotto le fila fà fa una _subscribe_`($event=>handler($event))` quindi alla fine della fiera possiamo marcare **qualsiasi Observable** come `@Output()` e tutto continua a funzionare! 😎
@@ -270,11 +271,15 @@ Ad esempio per poter riprovare la chiamata che potrebbe andare in errore all'int
 
 A: Personalmente sò che è molto discusso ed è una delle cose più "odiate" o meglio _"difficili da imparare e padronneggiare"_, ma spero che con tutto quello che vi ho raccontato in questo corso abbiate delle basi solide per **imparare a sfruttarlo**!
 Anche perchè diverse persone lo usano e vorrebbero anche di più!
--> Evoluzioni future RxJS: Statemanagementet [selector… reactive](https://dev.to/this-is-angular/i-changed-my-mind-angular-needs-a-reactive-primitive-n2g)
+-> Evoluzioni future RxJS: Statemanagementet [selector… reactive](https://dev.to/this-is-angular/i-changed-my-mind-angular-needs-a-reactive-primitive-n2g) 🤙
 
 > Q: E il Team di Angular abbondonerà mai RxJS?
 
-A: Dichiarazione Minko [attule techlead Angular] sul futuro: [Angular more Reactive](https://twitter.com/mgechev/status/1612870428359561217)
+A: Dichiarazione Minko [attule techlead Angular] sul futuro: [Angular more Reactive](https://twitter.com/mgechev/status/1612870428359561217) 🙏
+
+> Q: Qualche suggerimento su come gestire State-management con Rx?
+
+A: A parte il blasonato NgRX che _IO NON AMO_ soprattutto quando viene **abusato** per gestire _State che **NON** è globale_ all'applicazione! Vi consiglio di dare un occhio a [RxAngular](https://rx-angular.io/) che vi permette di scrivere facilmente dei **Servizi** da accopiare ai vostri componenti per _gestire in modo reattivo lo stato "locale"_ dei componenti **collegandolo** eventualmente ad altri Observable (aka Stati globale) + eventuali _effect a livello locale_ guardate questo [video](https://www.youtube.com/watch?v=CcQYj4V2IKw) per capire come si usa _@rx-angular/state_! 🤟
 
 ---
 
