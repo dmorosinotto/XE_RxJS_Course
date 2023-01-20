@@ -174,6 +174,7 @@ Oppure imparare ad usare gli **HighOrder** che sono degli operatori di _"flatten
 ## E se ancora non vi bastasse...
 
 Ci sono 100+ operatori in RxJS (nessuno li conosce tutti) e sinceramente il sito ufficiale di RxJS **FA 💩** soprattutto nelle descrizioni dei vari operatori, ma offre un _**Utilissimo** [WIZZARD 🧐](https://rxjs.dev/operator-decision-tree) per **trovare** l'operatore **Giusto**!_
+Oppure potete consultare questa pagina con tutto l'[Albero](http://xgrommx.github.io/rx-book/content/which_operator_do_i_use/instance_operators.html) delle opzioni per scegliere l'Operatore 🤔
 
 Una volta che l'avrete trovato vi consiglio di cercare la **documentazione** ed eventuali _esempi di utilizzo_ nel sito [LEARN RxJS 🤓](https://www.learnrxjs.io/learn-rxjs/operators)
 
