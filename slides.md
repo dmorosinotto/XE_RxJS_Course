@@ -198,7 +198,7 @@ ATTENZIONE: ai **MemoryLeak** che si possono verificare soprattutto se sottoscri
 
 --
 
-COME RENDERE UN **@Input() -> obs$**
+COME RENDERE UN **@Input() -> obs$** [snippet](https://gist.github.com/dmorosinotto/62ab9acd876f394b0f557917a683ed46)
 
 ```
 #prop = new BehaviorSubject<T|undefined>(undefined); //TRICK VALORE PARTENZA
