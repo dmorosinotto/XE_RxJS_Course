@@ -201,8 +201,8 @@ ATTENZIONE: ai **MemoryLeak** che si possono verificare soprattutto se sottoscri
 COME RENDERE UN **@Input() -> obs$**
 
 ```
-private #prop = new BehaviorSubject<T|undefined>(undefined); //TRICK VALORE PARTENZA
-protected prop$ = this.#prop.asObservable().pipe(filter(p=>p===undefined));
+#prop = new BehaviorSubject<T|undefined>(undefined); //TRICK VALORE PARTENZA
+protected prop$ = this.#prop.asObservable().pipe(filter(p=>p!==undefined));
 @Input() set prop(value: T) { //OGNI VOLTA CHE RICEVO VALORE LO EMETTO TRAMITE prop$
     //if (value!==this.prop)  //ALTRO MODO PER EVITARE LOOP INFINITI [(prop)]="val"
     this.#prop.next(value);
