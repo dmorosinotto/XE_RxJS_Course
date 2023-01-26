@@ -290,6 +290,8 @@ Proviamo dal [vivo](https://rxviz.com) alcuni spezzoni di codice che usano RxJs
 
 Bellissimo sito con [animazioni](https://reactive.how) per visualizzare e capire meglio funzionamento/confronto tra operatori
 
+Workshop by [Michael Hladky](https://twitter.com/Michael_Hladky) che mostra passo-passo come gestire pagina contatore con approccio **Reattivo** [EventSource + CQRS](https://docs.google.com/presentation/d/13Eqcjn2Rg-gvFlCS_GBUmoMFn69OYbz7zuQQmJ6gM0c/edit?pli=1#slide=id.p) volendo potete provare la [sfida live](https://stackblitz.com/edit/rxjs-operating-heavily-dynamic-uis-cshhxz?file=index_INITIAL.ts) oppure vedere lo svolgimento dell'[intera soluzione](https://www.youtube.com/watch?v=XKfhGntZROQ)
+
 ---
 
 ## Q&A + REFERENCE
