@@ -2,14 +2,16 @@
 
 -   Workshop Michael [video](https://www.youtube.com/watch?v=XKfhGntZROQ) / demo [stackbliz](https://stackblitz.com/edit/rxjs-operating-heavily-dynamic-uis-cshhxz?file=_index.ts) + [slides](https://bitly.com/rxjs-operating-heavily-dynamic-uis_slides) che mostra **MENTAL MODEL:** _EventSource+CQRS = **STATE MANAGEMENT**_ che è l'approccio che sta alla base anche di Redux "Flux architecture" -> ![NGRX](https://ngrx.io/generated/images/guide/store/state-management-lifecycle.png)
 
-Guardare: [Intro/Training a **NGRX** ThisDot](https://www.youtube.com/watch?v=iWX7qCGVt9U) by Mike Ryan
+Guardare: [Intro/Training a **NGRX** ThisDot](https://www.youtube.com/watch?v=iWX7qCGVt9U) by Mike Ryan + [repo codice](https://github.com/thisdot/ngrx-training)
+
+Concetti Pricipali: per una prima intro potete vedere [corso ThisIsLearning](https://this-is-angular.github.io/ngrx-essentials-course/docs/chapter-1) anche se non è completissimo/aggiornato ha un approccio passo-passo x esempi.
 
 Concetti Pricipali:
 
 -   **ACTION** video su [Action hygiene](https://youtu.be/JmnsEvoy-gY?t=1021) by Mike
     DOMANDE:
 
-    -   perchè suggeriscono di NON riutilizzare azioni e crearne una di nuovo per ogni page/comp formato **"[sorgente] evento"**
+    -   perchè suggeriscono di NON riutilizzare azioni e crearne una di nuovo per ogni page/comp formato `"[sorgente] evento"`
     -   R: facilita tracking + gestione effect, ma alla fine abbiamo 1000+ di ACTION che identificano il nostro processo passo/passo -> flusso azioni
     -   _NON PIU' ACTION=method call(par)_ ma **UNIQUE EVENT**
     -   NON fare Action troppo generiche...=> RISULTATO BOILERPLATE!!!
@@ -29,7 +31,10 @@ Concetti Pricipali:
 
     _ATTENTI_ a non generare errori -> Gestire azioni per caso Error oppure far si che lo stream di Actions non termini!
 
+-   Ricordatevi che in ogni APP avete una sorgente di state globle implicita che è l'**URL DEL BROWSER** -> Router -> date un occhiata a [@ngrx/router-store](https://ngrx.io/guide/router-store)
+
 -   Per _"Ridurre Boilerplate"_ -> decidere **cosa mettere nello State**: [SHARI](https://youtu.be/t3jx0EC-Y3c?t=541) video by Brandan Roberts + Mike
+
 -   La [sintassi nuova](https://dev.to/ngrx/you-should-take-advantage-of-the-improved-ngrx-apis-1a84) introdotta su NGRX14 semplifica l'uso e magari unito a Standalone component con [provideStore/Effect](https://dev.to/ngrx/announcing-ngrx-v15-standalone-apis-type-safe-projectors-component-and-componentstore-updates-and-more-l7) migliore un pò la quantità di codice/semplifica gestione...
 
 # MY 2 CENTS:
