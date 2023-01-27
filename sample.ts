@@ -117,3 +117,31 @@ const obs$ = new Observable(sub => { //IL COSTRUTTORE VOLE UNA FUNZIONE PER RICE
     }, 1000);
     return () => { clearInterval(i) }; //RITORNA LOGICA DI PULIZIA - TEARDOWN
 });
+
+
+
+
+
+var init$ = new Subject()
+ngOnInit{
+    init$.next();
+    init$.complete();
+}
+var btnFlt$ = from("btnCerca", click);
+
+mapTo(costante) = map(()=>costante)
+
+var resp$ = merge(
+                init$.mapTo({filter: null}),
+                btnFlt$.mapTo({filter: frmFilter.value}) 
+            ).pipe(
+                tap(()=>spinner(true))
+                switchMap(f=>http.get(/api?serch=f).pipe(
+                    retry(2), 
+                    takeUntilDestroy(), 
+                    finalize(()=>spinner(false))),
+                catchError(e=>of([])),
+                )
+                shareReplay(1),
+                takeUntilDestory(),
+            )
