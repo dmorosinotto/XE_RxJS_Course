@@ -105,7 +105,7 @@ s.ubsubscribe(); //PER SMETTERE DI RICEVERE LE NOTIFICHE ED ESEGUIRE teardown
 
 **Come creare Observable**
 
-Il costruttore non è l'unico modo di creare Observable, anzi il più delle volte si usano altri metodi vedi questo [articolo omnicomprensivo](https://medium.com/angular-in-depth/the-extensive-guide-to-creating-streams-in-rxjs-aaa02baaff9a) su come costruire stream:
+Il costruttore non è l'unico modo di creare Observable, anzi il più delle volte si usano altri metodi _Creational_ vedi questo [articolo omnicomprensivo](https://medium.com/angular-in-depth/the-extensive-guide-to-creating-streams-in-rxjs-aaa02baaff9a) su come costruire stream:
 
 -   ad esempio a partire da sequenze note: `of(1,2,3,42)`
 -   o da `timer(10,250)` o `interval(1000)`
@@ -126,7 +126,7 @@ In questi casi si ha a che fare con dei **Subject** ossia oggetti che espongono 
 
 Come già accennato nel _"MENTAL MODEL"_ gli **Operatori** non sono altro che **funzioni** che trasformano `Observable<IN> => Observable<OUT>` 🤓
 
-E il **pipe** non è altro che l'operatore di composizione funzionale `pipe=f(g(h))` applicato agli Operatori (aka alle funzioni che operano sugli Observable) - e se ci pensate un attimo esso stesso è un operatore 🤯
+Il **pipe** non è altro che l'operatore di composizione funzionale `pipe=f(g(h))` applicato agli Operatori (aka alle funzioni che operano sugli Observable) - e se ci pensate un attimo esso stesso è un operatore 🤯
 
 I più **semplici e comuni** tipo: _map, filter, tap, distinctUntilChange_ sono facilmente capibili guadando questo sito [RxMarble](https://rxmarbles.com) che mostra l'effetto che ha un operatore sulla timeline "interattiva" dei valori emessi.
 
@@ -182,7 +182,7 @@ E se la documentazione/marble vi lascia ancora dei dubbi, potete provare a cerca
 
 O eventualmente potete provare a usare [RXVIZ](https://rxviz.com) per provare **dal vivo** gli esempi di codice presi da LearnRx o scrivervene voi uno che _simuli il vostro caso_ d'uso 🤔
 
-> A volte per definire/scegliere gli operatori da usare bisogna seguire un approccio _"bottom up"_ a partire dai risultati che si vogliono ottenere definire le trasformazioni (operatori da usare) all'indietro, creando dei risultati intermedi, fino ad arrivare a collegarli agli stream di partenza/ingresso - vedi vecchio [corso egghead](https://app.egghead.io/playlists/introduction-to-reactive-programming-using-rxjs-5) di Andrez che mostra come ottiene i risultati intermedi con startWith() e altri merge()...
+> A volte per definire/scegliere gli operatori da usare bisogna seguire un approccio _"bottom up"_ a partire dai risultati che si vogliono ottenere amdare a ritroso per definire le trasformazioni (operatori da usare) creando dei risultati intermedi, fino ad arrivare a collegarsi agli stream di partenza/ingresso - vedi vecchio [corso egghead](https://app.egghead.io/playlists/introduction-to-reactive-programming-using-rxjs-5) di Andrez che mostra come ottiene i risultati intermedi con startWith() e altri merge()...
 
 ---
 
@@ -221,9 +221,9 @@ get prop(): T|undefined { //ACCESSO ALL'ULTIMO VALORE PUNTUALE
 TRICK <ng-container \*ngIf=“obs$ | async as val”>
 Pattern _"abusato" per estrarre il valore dagli Observable_ lato template **evitando di fare multiple subscription** (tipicamente una per ogni | async) - però soffre di alcuni problemini:
 
--   Se devo gestire più observable sono costretto a fare cascate di <ng-container> 😞
+-   Se devo gestire più observable sono costretto a fare cascate di `<ng-container>` 😞
 -   Non ho modo di gestire i casi di error e complete! 😢
--   Ancora più grave: se l'obs$ emette valori **Falsy: 0|""|null|undefined|false** il codice **NON FUZIONA!!** perchè la condizione dell'ngIf non vien soddisfatta e quindi oltre a perdere il valore Falsy _distruggo anche i componenti_ nel <ng-container>! 😱
+-   Ancora più grave: se l'obs$ emette valori **Falsy: 0|""|null|undefined|false** il codice **NON FUZIONA!!** perchè la condizione dell'ngIf non vien soddisfatta e quindi oltre a perdere il valore Falsy _distruggo anche i componenti_ nel `<ng-container>`! 😱
 
 -   SOLUZIONE: usare [@ngrx/component](https://ngrx.io/guide/component) \*ngrxLet oppure il nuovo | ngrxPush \* che risolvono tutti questi problemi! 😍
 
@@ -234,8 +234,8 @@ Pattern _"abusato" per estrarre il valore dagli Observable_ lato template **evit
 TRICK side-effect Intermedi -> `tap( behaviorSubject$ )`
 A volte si ha bisogno di catturare dei valori intermedi presenti in una catena di pipe più complessa, siccome [tap](https://rxjs.dev/api/index/function/tap) nella forma più complessa accetta un Observer con {next, error, complete} e dato che i BehaviorSubject -> Subject -> Observer si può scrivere semplicemente `tap(bsTemp$)` per dipanare dei "flussi esterni" dalla catena pipe principale ed inoltre è essendo un BehaviorSubject avere anche il valore puntuale!
 
-TRICK consententire multipli | async -> `obs$.pipe(`_share o shareReplay_)
-Altro argomento simile (legato ai Subject) sono gli operatori di **multicast** che permettono di _evitare di far partire_ un nuova subscription ogni volta che viene fatta la subscribe (aka | async) e invece _"condividere" in qualche modo_ ciò che è già successo nella storia di quell'Observable e i prossimi valori emessi, vi consiglio di leggere questo [articolo sul multicast](https://blog.strongbrew.io/multicasting-operators-in-rxjs/) che spiega i vari operatori: _share/shareReplay/publish,refCount_
+TRICK per consentire _multipli | async_ senza far partire piu richieste -> `obs$.pipe(`_share o shareReplay_)
+Usate gli operatori di **multicast** (argomento simile/legato ai Subject)che permettono di _evitare di far partire_ un nuova subscription ogni volta che viene fatta la subscribe (aka | async) e invece _"condividere" in qualche modo_ ciò che è già successo nella storia di quell'Observable e i prossimi valori emessi, vi consiglio di leggere questo [articolo sul multicast](https://blog.strongbrew.io/multicasting-operators-in-rxjs/) che spiega i vari operatori: _share/shareReplay/publish,refCount_
 
 ---
 
@@ -280,7 +280,7 @@ A: Dichiarazione Minko [attule techlead Angular] sul futuro: [Angular more React
 
 > Q: Qualche suggerimento su come gestire State-management con Rx?
 
-A: A parte il blasonato NgRX che _IO NON AMO_ soprattutto quando viene **abusato** per gestire _State che **NON** è globale_ all'applicazione! Vi consiglio di dare un occhio a [RxAngular](https://rx-angular.io/) che vi permette di scrivere facilmente dei **Servizi** da accopiare ai vostri componenti per _gestire in modo reattivo lo stato "locale"_ dei componenti **collegandolo** eventualmente ad altri Observable (aka Stati globale) + eventuali _effect a livello locale_ guardate questo [video](https://www.youtube.com/watch?v=CcQYj4V2IKw) per capire come si usa _@rx-angular/state_! 🤟
+A: A parte il blasonato [NgRX](NGRX.md) che _IO NON AMO_ soprattutto quando viene **abusato** per gestire _State che **NON** è globale_ all'applicazione! Vi consiglio di dare un occhio a [RxAngular](https://rx-angular.io/) che vi permette di scrivere facilmente dei **Servizi** da accopiare ai vostri componenti per _gestire in modo reattivo lo stato "locale"_ dei componenti **collegandolo** eventualmente ad altri Observable (aka Stati globale) + eventuali _effect a livello locale_ guardate questo [video](https://www.youtube.com/watch?v=CcQYj4V2IKw) per capire come si usa _@rx-angular/state_! 🤟
 
 ---
 
