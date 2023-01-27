@@ -135,13 +135,49 @@ var resp$ = merge(
                 init$.mapTo({filter: null}),
                 btnFlt$.mapTo({filter: frmFilter.value}) 
             ).pipe(
-                tap(()=>spinner(true))
+                chiamaApiConSpinner(f=>http.get(/api?serch=f),[]),
+                takeUntilDestory(),
+
+                tap(()=>spinner(true)),
+                log("qui")
                 switchMap(f=>http.get(/api?serch=f).pipe(
-                    retry(2), 
+                    retryBackoff(2), 
+                    log("qua")
                     takeUntilDestroy(), 
                     finalize(()=>spinner(false))),
                 catchError(e=>of([])),
                 )
+                log("quo"),
                 shareReplay(1),
                 takeUntilDestory(),
             )
+
+
+
+            export function chiamaApiConSpinner(/*PARAMETRI CONFIG*/) {
+                return function(source: Observable<T>): Observable<R> {
+                  return source.pipe(
+                        //SCRIVI QUI LA TUA CATENA PIPELINE
+                  )
+                }
+            };
+
+
+            export function chiamaApiConSpinner(chiamata: (value: T)=>Observable<R>, fallback: R) {
+                return function(source: Observable<T>): Observable<R> {
+                  return source.pipe(
+                    tap(()=>spinner(true)),
+                    switchMap(f=>chiamata(f).pipe(
+                        retry(2), 
+                        takeUntilDestroy(), 
+                        finalize(()=>spinner(false))),
+                    catchError(e=>of(fallback)),
+                    )
+                    shareReplay(1),
+                    
+                )
+                  
+                  
+                  .pipe(map(fnTrasformSkipUndefined), filter(value => value !== undefined)) as Observable<Exclude<R,undefined>>;
+                }
+              }
