@@ -276,7 +276,7 @@ Anche perchè diverse persone lo usano e vorrebbero anche di più!
 
 > Q: E il Team di Angular abbondonerà mai RxJS?
 
-A: Dichiarazione Minko [attule techlead Angular] sul futuro: [Angular more Reactive](https://twitter.com/mgechev/status/1612870428359561217) 🙏
+A: Dichiarazione Minko [attule techlead Angular] sul futuro: [Angular more Reactive](https://twitter.com/mgechev/status/1612870428359561217) + video [Future Angular 2023 and beyond](https://youtu.be/7dm4Gif7A5o?t=1922) 🙏
 
 > Q: Qualche suggerimento su come gestire State-management con Rx?
 
